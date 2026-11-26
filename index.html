@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Laboratório do Acaso</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="top" id="top" hidden>
+  <div class="brand">Laboratório do Acaso</div>
+  <div class="hud" aria-label="Painel do jogador">
+    <div class="stat"><span>Pontos</span><b id="hudScore">0</b></div>
+    <div class="stat energy"><span>Energia</span><div class="bar"><i id="hudEnergyBar"></i></div><b id="hudEnergy">100</b></div>
+    <div class="stat"><span>Sequência</span><b id="hudStreak">0</b></div>
+    <div class="stat"><span>Dicas</span><b id="hudHints">0</b></div>
+  </div>
+  <div class="actions">
+    <button class="btn small" id="btnConceptsTop">Conceitos</button>
+    <button class="btn small" id="btnResetTop">Reiniciar</button>
+  </div>
+</header>
+
+<!-- TELA INICIAL -->
+<section id="screenStart" class="screen start">
+  <div class="start-copy">
+    <h1>Laboratório do Acaso</h1>
+    <p class="lead">A Máquina de Probabilidades está instável. Calcule cada chance, confira com o sorteio e estabilize a máquina em cinco fases.</p>
+    <div class="btn-row">
+      <button class="btn primary big" id="btnStart">Iniciar jogo</button>
+      <button class="btn" id="btnRules">Como jogar</button>
+      <button class="btn" id="btnConcepts">Conceitos</button>
+    </div>
+    <p class="best" id="bestLine"></p>
+  </div>
+  <div class="start-die">
+    <button class="die" id="heroDie" aria-label="Lançar o dado de teste">?</button>
+    <p class="die-note" id="dieNote">Toque no dado: depois de muitos lançamentos, a frequência de números pares se aproxima de 50%.</p>
+  </div>
+</section>
+
+<!-- TELA DO JOGO -->
+<main id="screenGame" class="screen game" hidden>
+  <section class="boardPanel card">
+    <div class="stability"><span>Estabilidade da máquina</span><div class="bar"><i id="stabBar"></i></div><b id="stabPct">0%</b></div>
+    <div class="board" id="board"><div class="token" id="token" aria-hidden="true">🧪</div></div>
+    <ul class="legend" id="legend"></ul>
+  </section>
+  <section class="card panel" id="panel"></section>
+</main>
+
+<!-- TELA FINAL -->
+<section id="screenEnd" class="screen end" hidden></section>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<dialog id="dlgRules">
+  <h2>Como jogar</h2>
+  <ol>
+    <li>Clique em <b>Iniciar jogo</b>. O explorador entra no tabuleiro.</li>
+    <li>Leia o objetivo e as regras de cada fase.</li>
+    <li>Observe os dados da missão: bolas, cartas, faces do dado, setores da roleta e objetos retirados.</li>
+    <li>Calcule a probabilidade. Se quiser, monte o cálculo nos campos de casos favoráveis e possíveis (+30 pontos).</li>
+    <li>Escolha a resposta correta. Erros custam 15 de energia; dicas reduzem o bônus.</li>
+    <li>Realize o sorteio e compare com o seu cálculo. Leia a explicação.</li>
+    <li>Avance. Cada fase tem 3 missões. Conclua as 5 fases para estabilizar a máquina.</li>
+  </ol>
+  <p class="formula">Probabilidade = casos favoráveis ÷ casos possíveis</p>
+  <p>O resultado pode aparecer como fração, decimal ou porcentagem.</p>
+  <h3>Pontuação e energia</h3>
+  <ul>
+    <li>Resposta correta: 100 pontos.</li>
+    <li>Sem dica e sem erro: +50 de bônus, mais bônus de sequência.</li>
+    <li>Com dica ou depois de errar: bônus menor.</li>
+    <li>Explicar o raciocínio: +30 pontos.</li>
+    <li>Fase concluída: +150 pontos e +10 de energia.</li>
+    <li>Se a energia chegar a zero, a missão termina.</li>
+  </ul>
+  <form method="dialog"><button class="btn primary">Entendi</button></form>
+</dialog>
+
+<dialog id="dlgConcepts">
+  <h2>Conceitos aprendidos</h2>
+  <h3>Probabilidade</h3>
+  <p class="formula">P = casos favoráveis ÷ casos possíveis</p>
+  <p>Vale entre 0 (impossível) e 1 ou 100% (certo). Pode ser escrita como fração (1/2), decimal (0,5) ou porcentagem (50%).</p>
+  <h3>Dado equilibrado</h3>
+  <p>Todas as faces têm a mesma chance. Par em um dado de 6 faces: 2, 4 e 6 → 3/6 = 1/2 = 50%.</p>
+  <h3>Urna colorida</h3>
+  <p>Some todas as bolas para achar o total. 3 azuis, 2 vermelhas e 5 amarelas: P(vermelha) = 2/10 = 20%.</p>
+  <h3>Evento complementar</h3>
+  <p>A chance de acontecer e a de não acontecer somam 100%. Se P(especial) = 30%, então P(não especial) = 100% − 30% = 70%.</p>
+  <h3>Roleta desigual</h3>
+  <p>Setores maiores têm maior probabilidade. Com 50%, 30% e 20%, o setor de 50% é o mais provável. Chances de setores diferentes podem ser somadas.</p>
+  <h3>Retirada sem reposição</h3>
+  <p>Se a bola não volta para a urna, o total e as quantidades mudam. Com 3 azuis e 2 vermelhas, após tirar uma azul: P(outra azul) = 2/4 = 1/2 = 50%. São eventos dependentes (probabilidade condicional).</p>
+  <h3>Cálculo × sorteio</h3>
+  <p>O sorteio mostra um resultado possível. A probabilidade descreve o que tende a acontecer em muitas repetições.</p>
+  <form method="dialog"><button class="btn primary">Fechar</button></form>
+</dialog>
+
+<script src="game.js"></script>
+</body>
+</html>
